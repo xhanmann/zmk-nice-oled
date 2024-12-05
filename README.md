@@ -1,9 +1,8 @@
-# nice_oled
+# nice!oled
 
 ![Banner](./assets/banner.JPG)
 
-nice_oled vertical widgets for oled screens in 128x32 portrait orientation with
-zmk software.
+nice_oled vertical widgets for oled screens with zmk (for split and non-split keyboards)
 
 Inspired/forked by the work of @M165437 with his [nice-view-gem](https://github.com/M165437/nice-view-gem).
 All credits to him for the original design and implementation.
@@ -48,7 +47,8 @@ manifest:
     path: config
 ```
 
-2. In the `build.yaml` file, add the `nice_oled` shield.
+2. In the `build.yaml` file, add the `nice_oled` shield (using the corne as an
+   example, but it could be another shield).
 
 ```diff
 ---
@@ -88,3 +88,6 @@ Modify the behavior of this shield by adjusting these options in your personal c
 ## Inspiration
 - [nice-view-gem](https://github.com/M165437/nice-view-gem) by @M165437
 - [nice-view-elemental](https://github.com/kevinpastor/nice-view-elemental) by @kevinpastor
+
+# If you like my contributions, please don't forget the following:
+![Star](./assets/star.GIF)

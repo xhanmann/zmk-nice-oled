@@ -133,8 +133,10 @@ static void draw_graph(lv_obj_t *canvas, const struct status_state *state) {
 
 static void draw_label(lv_obj_t *canvas, const struct status_state *state) {
   lv_draw_label_dsc_t label_dsc_wpm;
-  init_label_dsc(&label_dsc_wpm, LVGL_FOREGROUND, &pixel_operator_mono,
+  init_label_dsc(&label_dsc_wpm, LVGL_FOREGROUND, &pixel_operator_mono_12,
                  LV_TEXT_ALIGN_LEFT);
+  // init_label_dsc(&label_dsc_wpm, LVGL_FOREGROUND, &pixel_operator_mono,
+  // LV_TEXT_ALIGN_LEFT);
 
   char wpm_text[10] = {};
 
@@ -142,12 +144,17 @@ static void draw_label(lv_obj_t *canvas, const struct status_state *state) {
   // if wpm < 10, elsse if wpm => 10 and wpm < 100, else wpm >= 100
   if (state->wpm[9] < 10) {
     lv_canvas_draw_text(canvas, 12, 75, 50, &label_dsc_wpm, wpm_text);
+    // lv_canvas_draw_text(canvas, 12, 75, 50, &label_dsc_wpm, wpm_text); //
+    // with global font
   } else if (state->wpm[9] >= 10 && state->wpm[9] < 100) {
-    lv_canvas_draw_text(canvas, 8, 75, 50, &label_dsc_wpm, wpm_text);
+    lv_canvas_draw_text(canvas, 9, 75, 50, &label_dsc_wpm, wpm_text);
+    // lv_canvas_draw_text(canvas, 8, 75, 50, &label_dsc_wpm, wpm_text); // with
+    // global font
   } else {
-    lv_canvas_draw_text(canvas, 5, 75, 50, &label_dsc_wpm, wpm_text);
+    lv_canvas_draw_text(canvas, 7, 75, 50, &label_dsc_wpm, wpm_text);
+    // lv_canvas_draw_text(canvas, 5, 75, 50, &label_dsc_wpm, wpm_text); // with
+    // global font
   }
-  // lv_canvas_draw_text(canvas, 0, 103, 50, &label_dsc_wpm, wpm_text);
 }
 
 static void draw_bongocat(lv_obj_t *canvas, const struct status_state *state) {
