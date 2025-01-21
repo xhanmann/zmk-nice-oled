@@ -23,26 +23,39 @@ The nice_oled is a ZMK module:
 ![Preview #3](./assets/preview2.JPG)
 
 ## Installation
+> [!TIP]
+>
+> 1. You can disable the gem animation if you find it annoying or want to save
+>    battery life with the option `CONFIG_NICE_OLED_GEM_ANIMATION=n` in your `./config/corne.conf` file.
+> 2. You can also deactivate it as follows `cmake-args:
+>    -DCONFIG_NICE_VIEW_GEM_ANIMATION=n` in your `build.yaml` file.
+> 3. Remember that you can save battery by also turning off the screen and
+>    activating deep sleep mode `CONFIG_ZMK_SLEEP=y
+>    CONFIG_ZMK_IDLE_TIMEOUT=60000`. Here `60000` is the time in milliseconds,
+>    in this case `1` minute `=` `(1*60*1000ms)`.
 
-Only small changes are needed to your keyboard configuration's build setup. Then, you'll need to rebuild and flash your keyboard firmware.
+-DCONFIG_NICE_OLED_GEM_ANIMATION=y
+Installation in 2 simple steps:
 
-1. In the `config/west.yml` file, add a new remote and its related project.
+1. Copy and paste this into your `config/west.yml` file:
 
-```diff
+```yaml
 manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-+   - name: mctechnology17
-+     url-base: https://github.com/mctechnology17
+    # nice_oled
+    - name: mctechnology17
+      url-base: https://github.com/mctechnology17
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-+   - name: zmk-nice-oled
-+     remote: mctechnology17
-+     revision: main
+    # nice_oled
+    - name: zmk-nice-oled
+      remote: mctechnology17
+      revision: main
   self:
     path: config
 ```
@@ -50,15 +63,13 @@ manifest:
 2. In the `build.yaml` file, add the `nice_oled` shield (using the corne as an
    example, but it could be another shield).
 
-```diff
+```yaml
 ---
 include:
   - board: nice_nano_v2
--   shield: corne_left
-+   shield: corne_left nice_oled
+    shield: corne_left nice_oled
   - board: nice_nano_v2
--   shield: corne_right
-+   shield: corne_right nice_oled
+    shield: corne_right nice_oled
 ```
 
 3. Build the firmware, flash it to your keyboard, and enjoy!
@@ -80,14 +91,13 @@ Modify the behavior of this shield by adjusting these options in your personal c
 
 | Option                                     | Type | Description                                                                                                                                                                                                                                                       | Default |
 | ------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `CONFIG_NICE_OLED_GEM_WPM_FIXED_RANGE`     | bool | This shield uses a fixed range for the chart and gauge deflection. If you set this option to `n`, it will switch to a dynamic range, like the default nice!view shield, which dynamically adjusts based on the last 10 WPM values provided by ZMK.                | y       |
-| `CONFIG_NICE_OLED_GEM_WPM_FIXED_RANGE_MAX` | int  | You can adjust the maximum value of the fixed range to align with your current goal.                                                                                                                                                                              | 100     |
+| `CONFIG_NICE_OLED_GEM_ANIMATION_WPM_FIXED_RANGE`     | bool | This shield uses a fixed range for the chart and gauge deflection. If you set this option to `n`, it will switch to a dynamic range, like the default nice!view shield, which dynamically adjusts based on the last 10 WPM values provided by ZMK.                | y       |
+| `CONFIG_NICE_OLED_GEM_ANIMATION_WPM_FIXED_RANGE_MAX` | int  | You can adjust the maximum value of the fixed range to align with your current goal.                                                                                                                                                                              | 100     |
 | `CONFIG_NICE_OLED_GEM_ANIMATION`           | bool | If you find the animation distracting (or want to save on battery usage), you can turn it off by setting this option to `n`. It will instead pick a random frame of the animation every time you restart your keyboard.                                           | y       |
 | `CONFIG_NICE_OLED_GEM_ANIMATION_MS`        | int  | Alternatively, you can slow down the animation. A high value, such as 96000, slows the animation considerably, showing the next frame every couple of seconds. The animation consists of 16 frames, and the default value of 960 milliseconds plays it at 60 fps. | 960     |
 
 ## Inspiration
 - [nice-view-gem](https://github.com/M165437/nice-view-gem) by @M165437
-- [nice-view-elemental](https://github.com/kevinpastor/nice-view-elemental) by @kevinpastor
 
 # If you like my contributions, please don't forget the following:
 ![Star](./assets/star.GIF)
