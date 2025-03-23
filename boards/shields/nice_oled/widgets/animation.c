@@ -1,4 +1,5 @@
 #include "animation.h"
+#include "screen_peripheral.h"
 // TODO: (Feature request) Disable animation when on battery #4
 // #include "../assets/custom_fonts.h"
 // #include "battery.h"
@@ -66,6 +67,10 @@ LV_IMG_DECLARE(vim);
 LV_IMG_DECLARE(vip_marcos);
 #define FIXED_IMAGE_2 &vip_marcos
 
+#if IS_ENABLED(CONFIG_NICE_OLED_GEM_ANIMATION_SMART_BATTERY)
+void draw_animation(lv_obj_t *canvas, struct zmk_widget_screen *widget) {}
+#else
+
 void draw_animation(lv_obj_t *canvas, struct zmk_widget_screen *widget) {
     /* Declare globally within the function, so that they exist regardless of
      * #if. */
@@ -73,7 +78,6 @@ void draw_animation(lv_obj_t *canvas, struct zmk_widget_screen *widget) {
     lv_obj_t *art2 = NULL;
 
 #if IS_ENABLED(CONFIG_NICE_OLED_GEM_ANIMATION)
-    /* If we have the Gem animation enabled */
     art = lv_animimg_create(widget->obj);
     lv_obj_center(art);
 
@@ -141,3 +145,4 @@ void draw_animation(lv_obj_t *canvas, struct zmk_widget_screen *widget) {
         lv_obj_align(art2, LV_ALIGN_TOP_LEFT, 2, 0);
     }
 }
+#endif

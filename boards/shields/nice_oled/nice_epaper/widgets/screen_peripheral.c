@@ -3,14 +3,14 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+#include <zmk/event_manager.h>
+#include <zmk/events/battery_state_changed.h>
+#include <zmk/events/usb_conn_state_changed.h>
+#include <zmk/split/bluetooth/peripheral.h>
+#include <zmk/events/split_peripheral_status_changed.h>
 #include <zmk/battery.h>
 #include <zmk/ble.h>
 #include <zmk/display.h>
-#include <zmk/event_manager.h>
-#include <zmk/events/battery_state_changed.h>
-#include <zmk/events/split_peripheral_status_changed.h>
-#include <zmk/events/usb_conn_state_changed.h>
-#include <zmk/split/bluetooth/peripheral.h>
 #include <zmk/usb.h>
 
 #include "animation.h"
@@ -42,7 +42,6 @@ static void draw_canvas(lv_obj_t *widget, lv_color_t cbuf[], const struct status
 
 static void set_battery_status(struct zmk_widget_screen *widget,
                                struct battery_status_state state) {
-
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
     widget->state.charging = state.usb_present;
 #endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
@@ -112,8 +111,9 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
     lv_obj_align(canvas, LV_ALIGN_TOP_LEFT, 0, 0);
     lv_canvas_set_buffer(canvas, widget->cbuf, CANVAS_HEIGHT, CANVAS_HEIGHT, LV_IMG_CF_TRUE_COLOR);
 
-    sys_slist_append(&widgets, &widget->node);
     draw_animation(canvas, widget);
+
+    sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
     widget_peripheral_status_init();
 

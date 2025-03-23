@@ -3,10 +3,6 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-#include <zmk/battery.h>
-#include <zmk/ble.h>
-#include <zmk/display.h>
-#include <zmk/endpoints.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/battery_state_changed.h>
 #include <zmk/events/ble_active_profile_changed.h>
@@ -14,6 +10,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/layer_state_changed.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/events/wpm_state_changed.h>
+#include <zmk/battery.h>
+#include <zmk/ble.h>
+#include <zmk/display.h>
+#include <zmk/endpoints.h>
 #include <zmk/keymap.h>
 #include <zmk/usb.h>
 #include <zmk/wpm.h>
@@ -63,8 +63,11 @@ static void draw_canvas(lv_obj_t *widget, lv_color_t cbuf[], const struct status
     // Draw widgets
     draw_background(canvas);
     draw_output_status(canvas, state);
-    draw_battery_status(canvas, state);
+    // TODO: charging animation START
+    // change the position
     draw_wpm_status(canvas, state);
+    draw_battery_status(canvas, state);
+    // TODO: charging animation END
     draw_profile_status(canvas, state);
     draw_layer_status(canvas, state);
 
@@ -222,7 +225,9 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
 
 #if IS_ENABLED(CONFIG_NICE_OLED_WIDGET_WPM)
     zmk_widget_luna_init(&luna_widget, canvas);
-    lv_obj_align(zmk_widget_luna_obj(&luna_widget), LV_ALIGN_TOP_LEFT, 36, 0);
+
+    // ori: lv_obj_align(zmk_widget_luna_obj(&luna_widget), LV_ALIGN_TOP_LEFT, 36, 0);
+    lv_obj_align(zmk_widget_luna_obj(&luna_widget), LV_ALIGN_TOP_LEFT, 100, 15);
 #endif
 
 #if IS_ENABLED(CONFIG_NICE_OLED_WIDGET_HID_INDICATORS)
@@ -232,7 +237,6 @@ int zmk_widget_screen_init(struct zmk_widget_screen *widget, lv_obj_t *parent) {
 #if IS_ENABLED(CONFIG_NICE_OLED_WIDGET_MODIFIERS_INDICATORS)
     zmk_widget_modifiers_init(&modifiers_widget, canvas); // Inicializar el widget de modifiers
 #endif
-
     return 0;
 }
 
