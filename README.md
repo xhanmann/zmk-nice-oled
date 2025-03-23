@@ -16,7 +16,7 @@
 
 # Overview
 - `nice_oled` vertical widgets for `oled` screens with zmk (for split and non-split keyboards)
-- `nice_oled` vertical widgets for `nice_view` screens with zmk (for split and non-split keyboards)
+- `nice_epaper` vertical widgets for `nice_view` screens with zmk (for split and non-split keyboards)
 
 
 Shields supported:
