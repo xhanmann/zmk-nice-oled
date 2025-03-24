@@ -147,6 +147,10 @@ config NICE_OLED_WIDGET_HID_INDICATORS_LUNA
     bool "Enable HID indicators luna"
     default y
 
+config NICE_OLED_WIDGET_HID_INDICATORS_LUNA_ONLY_CAPSLOCK
+    bool "Enable HID indicators luna only on CapsLock"
+    default n
+
 if NICE_OLED_WIDGET_HID_INDICATORS_LUNA
 
 config NICE_OLED_WIDGET_HID_INDICATORS_LUNA_ANIMATION_MS
